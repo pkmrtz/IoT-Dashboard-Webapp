@@ -1,4 +1,4 @@
-**# IoT-Dashboard Webanwendung**
+# IoT-Dashboard Webanwendung
 
 Die IoT-Dashboard Webanwendung ist eine Plattform zur Überwachung von Temperatur- und Luftfeuchtigkeitsdaten, die von einem Raspberry Pi gesammelt werden. Die Anwendung ist in Spring Boot, JavaScript, HTML und SCSS geschrieben und bietet ein benutzerfreundliches Dashboard.
 
