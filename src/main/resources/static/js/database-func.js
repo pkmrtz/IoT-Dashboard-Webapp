@@ -5,60 +5,82 @@ function setZeitspanne(minutes) {
     console.log('Zeitspanne ausgewählt:', selectedZeitspanne, 'Minute(n)');
 }
 
-async function getTemperature(time) {
+async function getTemperature() {
     try {
         const response = await fetch("http://localhost:8080/telemetry/temp?minutes=" + selectedZeitspanne);
         const data = await response.json();
 
-        let values = [];
+        let values, timestamps, tooltips = [];
 
-        if (time) {
-            values = data.map(entry => {
-                var dateString = String(entry[1])
-                var date = new Date(dateString)
-                var day = date.getDate()
-                var month = date.toLocaleString('default', { month: 'short' });
-                var hours = date.getHours();
-                var minutes = "0" + date.getMinutes();
-                var seconds = "0" + date.getSeconds();
-                var formattedTime = day + ". " +month+", "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-                return formattedTime;
-            });
-        } else {
-            values = data.map(entry => entry[0]);
-        }
+        timestamps = data.map(entry => {
+            var dateString = String(entry[1])
+            var date = new Date(dateString)
+            var day = date.getDate()
+            var month = date.toLocaleString('default', { month: 'short' });
+            var hours = date.getHours();
+            var minutes = "0" + date.getMinutes();
+            var seconds = "0" + date.getSeconds();
+            var formattedTime = day + ". " +month+", "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+            return formattedTime;
+        });
 
-        return values;
+        tooltips = data.map(entry => {
+            var dateString = String(entry[1])
+            var date = new Date(dateString)
+            var day = date.getDate()
+            var month = date.toLocaleString('default', { month: 'short' });
+            var hours = date.getHours();
+            var minutes = "0" + date.getMinutes();
+            var seconds = "0" + date.getSeconds();
+            var formattedTime = day + ". " +month+", "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+            return formattedTime;
+        });
+
+        values = data.map(entry => entry[0]);
+        
+
+        return [timestamps, values];
     } catch (error) {
         console.error(error);
         throw error;
     }
 }
 
-async function getHumidity(time) {
+async function getHumidity() {
     try {
         const response = await fetch("http://localhost:8080/telemetry/humid?minutes=" + selectedZeitspanne);
         const data = await response.json();
 
-        let values = [];
+        let values, timestamps, tooltips = [];
 
-        if (time) {
-            values = data.map(entry => {
-                var dateString = String(entry[1])
-                var date = new Date(dateString)
-                var day = date.getDate()
-                var month = date.toLocaleString('default', { month: 'short' });
-                var hours = date.getHours();
-                var minutes = "0" + date.getMinutes();
-                var seconds = "0" + date.getSeconds();
-                var formattedTime = day + ". " +month+", "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-                return formattedTime;
-            });
-        } else {
-            values = data.map(entry => entry[0]);
-        }
+        timestamps = data.map(entry => {
+            var dateString = String(entry[1])
+            var date = new Date(dateString)
+            var day = date.getDate()
+            var month = date.toLocaleString('default', { month: 'short' });
+            var hours = date.getHours();
+            var minutes = "0" + date.getMinutes();
+            var seconds = "0" + date.getSeconds();
+            var formattedTime = day + ". " +month+", "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+            return formattedTime;
+        });
 
-        return values;
+        tooltips = data.map(entry => {
+            var dateString = String(entry[1])
+            var date = new Date(dateString)
+            var day = date.getDate()
+            var month = date.toLocaleString('default', { month: 'short' });
+            var hours = date.getHours();
+            var minutes = "0" + date.getMinutes();
+            var seconds = "0" + date.getSeconds();
+            var formattedTime = day + ". " +month+", "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+            return formattedTime;
+        });
+
+        values = data.map(entry => entry[0]);
+        
+
+        return [timestamps, values];
     } catch (error) {
         console.error(error);
         throw error;

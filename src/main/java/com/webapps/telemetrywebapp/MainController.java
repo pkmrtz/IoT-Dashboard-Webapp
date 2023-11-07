@@ -41,12 +41,66 @@ public class MainController {
   
   @GetMapping(path="/temp")
   public @ResponseBody List<Object[]> getTemp(@RequestParam int minutes) {
-    return telemetryRepository.getTempFromMinutes(minutes);
+    int mod = 0; //modulo -> gibt an in welchen Abständen Werte abgefragt werden
+    switch(minutes){
+      case 1:
+        mod = 1; //jeder Wert aus der letzten Minute wird abgefragt
+        break;
+      case 30:
+        mod = 5;
+        break;
+      case 60:
+        mod = 10;
+        break;
+      case 300:
+        mod = 20;
+        break;
+      case 720:
+        mod = 30;
+        break;
+      case 1440:
+        mod = 60;
+        break;
+      case 10080:
+        mod = 200;
+        break;
+      case 43200:
+        mod = 1000;
+        break;
+    }
+    return telemetryRepository.getTempFromMinutes(minutes, mod);
   }
 
   @GetMapping(path="/humid")
   public @ResponseBody List<Object[]> getHumid(@RequestParam int minutes) {
-    return telemetryRepository.getHumidFromMinutes(minutes);
+    int mod = 0; //modulo -> gibt an in welchen Abständen Werte abgefragt werden
+    switch(minutes){
+      case 1:
+        mod = 1; //jeder Wert aus der letzten Minute wird abgefragt
+        break;
+      case 30:
+        mod = 5;
+        break;
+      case 60:
+        mod = 10;
+        break;
+      case 300:
+        mod = 20;
+        break;
+      case 720:
+        mod = 30;
+        break;
+      case 1440:
+        mod = 60;
+        break;
+      case 10080:
+        mod = 200;
+        break;
+      case 43200:
+        mod = 1000;
+        break;
+    }
+    return telemetryRepository.getHumidFromMinutes(minutes, mod);
   }
 
   @GetMapping(path="/latest/temp")
