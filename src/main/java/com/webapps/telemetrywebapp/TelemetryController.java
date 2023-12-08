@@ -2,6 +2,7 @@ package com.webapps.telemetrywebapp;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -14,14 +15,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path="/telemetry")
-public class MainController {
+public class TelemetryController {
   @Autowired 
   private TelemetryRepository telemetryRepository;
 
-  @PostMapping(path="/add")
-  public @ResponseBody String addNewTelemetry (@RequestParam float temperature, @RequestParam float humidity) {
+  @Autowired
+  private DeviceRepository deviceRepository;
 
+  @PostMapping(path="/add")
+  public @ResponseBody String addNewTelemetry (@RequestParam float temperature, @RequestParam float humidity, @RequestParam UUID device_id, @RequestParam String token) {
+    if (deviceRepository.countDevices(device_id) == 0) {
+      return "Device not found";
+    } else if (deviceRepository.findTokenForDevice(device_id) != token) {
+      return "False Token";
+    }
+    Device d = deviceRepository.getDeviceFromUUID(device_id); 
     Telemetry n = new Telemetry();
+    n.setDevice(d);
     n.setTemp(temperature);
     n.setHumid(humidity);
     n.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -79,7 +89,7 @@ public class MainController {
         mod = 1; //jeder Wert aus der letzten Minute wird abgefragt
         break;
       case 30:
-        mod = 5;
+        mod = 5; //jeder 5. Wert aus den letzten 30 Minuten wird abgefragt
         break;
       case 60:
         mod = 10;
