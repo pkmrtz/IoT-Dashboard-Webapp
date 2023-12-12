@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -118,7 +119,7 @@
             <!-- Table Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
-                    <div class="col-sm-12 col-xl-6">
+                    <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4">Basic Table</h6>
                             <table class="table">
@@ -127,27 +128,15 @@
                                         <th scope="col">Geräte-ID</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Token</th>
+                                        <th scope="col">Erstellungszeitpunkt</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                    </tr>
+                                    <tr th:each="device : ${deviceList}">
+                                        <td th:text="${device.id}"></td>
+                                        <td th:text="${device.name}"></td>
+                                        <td th:text="${device.token}"></td>
+                                        <td th:text="${device.timestamp}"></td>
                                 </tbody>
                             </table>
                         </div>
@@ -189,9 +178,6 @@
 
     <!-- Database Functions -->
     <script src="js/database-func.js"></script>
-
-    <!-- Chart Functions -->
-    <script src="js/chart-func.js" ></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

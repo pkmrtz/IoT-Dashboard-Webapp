@@ -1,5 +1,6 @@
 package com.webapps.telemetrywebapp;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,10 @@ public interface DeviceRepository extends CrudRepository<Device, Integer> {
     @Query(nativeQuery = true, value = "SELECT d.token FROM device d WHERE d.id = :id")
     String findTokenForDevice(@Param("id") UUID id);
 
-    @Query(nativeQuery = true, value = "SELECT d FROM device d WHERE d.id = :id")
+    @Query(nativeQuery = true, value = "SELECT * FROM device d WHERE d.id = :id")
     Device getDeviceFromUUID(@Param("id") UUID id);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM device d")
+    List<Device> getDevicesList();
 }
 

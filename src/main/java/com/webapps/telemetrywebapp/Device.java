@@ -1,25 +1,25 @@
 package com.webapps.telemetrywebapp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
+import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Device {
 
   @Id
-  @GeneratedValue(generator = "uuid2")
-  @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-  @Column(name = "id", columnDefinition = "VARCHAR(255)")
+  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
   private String name;
 
   private String token;
+
+  private Timestamp timestamp;
 
   public UUID getId() {
     return id;
@@ -39,5 +39,13 @@ public class Device {
 
   public void setToken(String token) {
     this.token = token;
+  }
+
+  public Timestamp getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(Timestamp timestamp) {
+    this.timestamp = timestamp;
   }
 }

@@ -18,7 +18,7 @@ public class Telemetry {
   private Integer id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id", nullable = false)  // Änderung hier
+  @JoinColumn(nullable = false)  // Änderung hier
   private Device device;
 
   private double temperature;

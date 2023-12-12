@@ -5,9 +5,14 @@ function setZeitspanne(minutes) {
     console.log('Zeitspanne ausgewählt:', selectedZeitspanne, 'Minute(n)');
 }
 
+function setDevice(id) {
+    selectedDevice = id;
+    console.log('Gerät ausgewählt:', selectedDevice);
+}
+
 async function getTemperature() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/temp?minutes=" + selectedZeitspanne);
+        const response = await fetch("http://localhost:8080/telemetry/temp?minutes=" + selectedZeitspanne + "&device_id=" + selectedDevice);
         const data = await response.json();
 
         let values, timestamps, tooltips = [];
@@ -48,7 +53,7 @@ async function getTemperature() {
 
 async function getHumidity() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/humid?minutes=" + selectedZeitspanne);
+        const response = await fetch("http://localhost:8080/telemetry/humid?minutes=" + selectedZeitspanne + "&device_id=" + selectedDevice);
         const data = await response.json();
 
         let values, timestamps, tooltips = [];
@@ -89,7 +94,7 @@ async function getHumidity() {
 
 async function latestTemperature() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/latest/temp");
+        const response = await fetch("http://localhost:8080/telemetry/latest/temp?device_id=" + selectedDevice);
         const data = await response.text();
         return data;
     } catch (error) {
@@ -100,7 +105,7 @@ async function latestTemperature() {
 
 async function latestHumidity() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/latest/humid");
+        const response = await fetch("http://localhost:8080/telemetry/latest/humid?device_id=" + selectedDevice);
         const data = await response.text();
         return data;
     } catch (error) {

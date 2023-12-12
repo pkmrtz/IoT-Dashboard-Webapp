@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -77,6 +78,22 @@
                     <i class="fa fa-bars"></i>
                 </a>
                 <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-clock me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Gerät</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item" th:each="device : ${deviceList}" onclick="setDevice(1);refresher();">
+                                <div class="d-flex align-items-center">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0" th:text="${device.name}"></h6>
+                                    </div>
+                                </div>
+                            </a>
+                            <hr class="dropdown-divider">
+                        </div>
+                    </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-clock me-lg-2"></i>

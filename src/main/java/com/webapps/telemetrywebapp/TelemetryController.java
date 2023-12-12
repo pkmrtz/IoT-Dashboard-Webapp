@@ -26,8 +26,8 @@ public class TelemetryController {
   public @ResponseBody String addNewTelemetry (@RequestParam float temperature, @RequestParam float humidity, @RequestParam UUID device_id, @RequestParam String token) {
     if (deviceRepository.countDevices(device_id) == 0) {
       return "Device not found";
-    } else if (deviceRepository.findTokenForDevice(device_id) != token) {
-      return "False Token";
+    } else if (!deviceRepository.findTokenForDevice(device_id).equals(token)) {
+      return "False Token"+deviceRepository.findTokenForDevice(device_id);
     }
     Device d = deviceRepository.getDeviceFromUUID(device_id); 
     Telemetry n = new Telemetry();
@@ -50,7 +50,7 @@ public class TelemetryController {
   }
   
   @GetMapping(path="/temp")
-  public @ResponseBody List<Object[]> getTemp(@RequestParam int minutes) {
+  public @ResponseBody List<Object[]> getTemp(@RequestParam int minutes, @RequestParam UUID device_id) {
     int mod = 0; //modulo -> gibt an in welchen Abständen Werte abgefragt werden
     switch(minutes){
       case 1:
@@ -78,11 +78,11 @@ public class TelemetryController {
         mod = 1000;
         break;
     }
-    return telemetryRepository.getTempFromMinutes(minutes, mod);
+    return telemetryRepository.getTempFromMinutes(minutes, mod, device_id);
   }
 
   @GetMapping(path="/humid")
-  public @ResponseBody List<Object[]> getHumid(@RequestParam int minutes) {
+  public @ResponseBody List<Object[]> getHumid(@RequestParam int minutes, @RequestParam UUID device_id) {
     int mod = 0; //modulo -> gibt an in welchen Abständen Werte abgefragt werden
     switch(minutes){
       case 1:
@@ -110,17 +110,17 @@ public class TelemetryController {
         mod = 1000;
         break;
     }
-    return telemetryRepository.getHumidFromMinutes(minutes, mod);
+    return telemetryRepository.getHumidFromMinutes(minutes, mod, device_id);
   }
 
   @GetMapping(path="/latest/temp")
-  public @ResponseBody double getLatestTemp(){
-    return telemetryRepository.getLatestTemp();
+  public @ResponseBody double getLatestTemp(@RequestParam UUID device_id){
+    return telemetryRepository.getLatestTemp(device_id);
   }
 
   @GetMapping(path="/latest/humid")
-  public @ResponseBody double getLatestHumid(){
-    return telemetryRepository.getLatestHumid();
+  public @ResponseBody double getLatestHumid(@RequestParam UUID device_id){
+    return telemetryRepository.getLatestHumid(device_id);
   }
   
 }

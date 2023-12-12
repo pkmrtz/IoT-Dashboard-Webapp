@@ -1,5 +1,7 @@
 package com.webapps.telemetrywebapp;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ public class DeviceController {
     d.setName(name);
     String token = SecureTokenGenerator.generateToken();
     d.setToken(token);
+    d.setTimestamp(new Timestamp(System.currentTimeMillis()));
     deviceRepository.save(d);
     return "Saved";
   }
