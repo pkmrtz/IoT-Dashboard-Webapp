@@ -264,8 +264,8 @@ async function refresher() {
 
     const latestTemp = await latestTemperature();
     const latestHumid = await latestHumidity();
-    document.getElementById("latest_humidity").innerHTML = latestHumid+" %";
-    document.getElementById("latest_temperature").innerHTML = latestTemp+" °C";
+    document.getElementById("latest_humidity").innerHTML = latestHumid;
+    document.getElementById("latest_temperature").innerHTML = latestTemp;
     await Sleep();
     if (timespan == selectedZeitspanne) refresher();
 }

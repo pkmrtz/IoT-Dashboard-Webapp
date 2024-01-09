@@ -3,9 +3,9 @@ package com.webapps.telemetrywebapp;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ public class TelemetryController {
   private DeviceRepository deviceRepository;
 
   @PostMapping(path="/add")
-  public @ResponseBody String addNewTelemetry (@RequestParam float temperature, @RequestParam float humidity, @RequestParam UUID device_id, @RequestParam String token) {
+  public @ResponseBody String addNewTelemetry (@RequestParam BigDecimal temperature, @RequestParam BigDecimal humidity, @RequestParam UUID device_id, @RequestParam String token) {
     if (deviceRepository.countDevices(device_id) == 0) {
       return "Device not found";
     } else if (!deviceRepository.findTokenForDevice(device_id).equals(token)) {
@@ -42,11 +42,6 @@ public class TelemetryController {
   @GetMapping(path="/all")
   public @ResponseBody Iterable<Telemetry> getAllTelemetry() {
     return telemetryRepository.findAll();
-  }
-
-  @GetMapping(path="/csrf")
-  public @ResponseBody CsrfToken csrf(CsrfToken csrfToken) {
-      return csrfToken;
   }
   
   @GetMapping(path="/temp")
@@ -114,13 +109,21 @@ public class TelemetryController {
   }
 
   @GetMapping(path="/latest/temp")
-  public @ResponseBody double getLatestTemp(@RequestParam UUID device_id){
-    return telemetryRepository.getLatestTemp(device_id);
+  public @ResponseBody String getLatestTemp(@RequestParam UUID device_id){
+    if (telemetryRepository.countTelemetry(device_id) > 0) {
+      return telemetryRepository.getLatestTemp(device_id)+" °C";
+    } else {
+      return "keine Werte vorhanden";
+    }
   }
 
   @GetMapping(path="/latest/humid")
-  public @ResponseBody double getLatestHumid(@RequestParam UUID device_id){
-    return telemetryRepository.getLatestHumid(device_id);
+  public @ResponseBody String getLatestHumid(@RequestParam UUID device_id){
+    if (telemetryRepository.countTelemetry(device_id) > 0) {
+      return telemetryRepository.getLatestHumid(device_id)+" %";
+    } else {
+      return "keine Werte vorhanden";
+    }
   }
   
 }

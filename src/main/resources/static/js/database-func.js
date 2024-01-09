@@ -1,18 +1,94 @@
 var selectedZeitspanne = 60;
+var selectedDeviceID, selectedDeviceName;
+setDevice();
+
+async function getNameForID(id) {
+    try {
+        const cleanedID = id.replace(/"/g, ''); 
+        const response = await fetch(`http://localhost:8080/device/${cleanedID}/name`);
+        return response.text();
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+async function getNewestDevice() {
+    try {
+        const response = await fetch("http://localhost:8080/device/newestID");
+        return response.text();
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+function reloadPage() {
+    return true;
+}
+
+async function submitForm(event) {
+    event.preventDefault();
+
+    var name = document.getElementById('name').value;
+
+    var requestOptions = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+
+    fetch("http://localhost:8080/device/add?name="+name, requestOptions) 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Fehler bei der Anfrage');
+            }
+            console.log('Erfolgreich gesendet!');
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Fehler:', error);
+        });
+}
+
+function deleteDevice(id) {
+    var requestOptions = {
+        method: 'DELETE',
+        redirect: 'follow'
+      };
+
+    fetch("http://localhost:8080/device/delete/"+id, requestOptions) 
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Fehler bei der Anfrage');
+        }
+        console.log('Erfolgreich gesendet!');
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Fehler:', error);
+    });  
+}
 
 function setZeitspanne(minutes) {
     selectedZeitspanne = minutes;
     console.log('Zeitspanne ausgewählt:', selectedZeitspanne, 'Minute(n)');
 }
 
-function setDevice(id) {
-    selectedDevice = id;
-    console.log('Gerät ausgewählt:', selectedDevice);
+async function setDevice(id) {
+    if (!id) {
+        id = await getNewestDevice();
+        id = id.replace(/"/g, ''); 
+    } 
+    selectedDeviceID = id;
+    selectedDeviceName = await getNameForID(selectedDeviceID);
+    document.getElementById("deviceName").innerHTML = selectedDeviceName;
+    console.log('Gerät ausgewählt:', selectedDeviceID);
+    refresher();
 }
 
 async function getTemperature() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/temp?minutes=" + selectedZeitspanne + "&device_id=" + selectedDevice);
+        const response = await fetch("http://localhost:8080/telemetry/temp?minutes=" + selectedZeitspanne + "&device_id=" + selectedDeviceID);
         const data = await response.json();
 
         let values, timestamps, tooltips = [];
@@ -53,7 +129,7 @@ async function getTemperature() {
 
 async function getHumidity() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/humid?minutes=" + selectedZeitspanne + "&device_id=" + selectedDevice);
+        const response = await fetch("http://localhost:8080/telemetry/humid?minutes=" + selectedZeitspanne + "&device_id=" + selectedDeviceID);
         const data = await response.json();
 
         let values, timestamps, tooltips = [];
@@ -94,7 +170,7 @@ async function getHumidity() {
 
 async function latestTemperature() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/latest/temp?device_id=" + selectedDevice);
+        const response = await fetch("http://localhost:8080/telemetry/latest/temp?device_id=" + selectedDeviceID);
         const data = await response.text();
         return data;
     } catch (error) {
@@ -105,7 +181,7 @@ async function latestTemperature() {
 
 async function latestHumidity() {
     try {
-        const response = await fetch("http://localhost:8080/telemetry/latest/humid?device_id=" + selectedDevice);
+        const response = await fetch("http://localhost:8080/telemetry/latest/humid?device_id=" + selectedDeviceID);
         const data = await response.text();
         return data;
     } catch (error) {

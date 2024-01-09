@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Telemetry {
@@ -21,9 +22,9 @@ public class Telemetry {
   @JoinColumn(nullable = false)  // Änderung hier
   private Device device;
 
-  private double temperature;
+  private BigDecimal temperature;
 
-  private double humidity;
+  private BigDecimal humidity;
 
   private Timestamp timestamp;
 
@@ -47,19 +48,19 @@ public class Telemetry {
     this.timestamp = timestamp;
   }
 
-  public double getTemp() {
+  public BigDecimal getTemp() {
     return temperature;
   }
 
-  public void setTemp(double temperature) {
+  public void setTemp(BigDecimal temperature) {
     this.temperature = temperature;
   }
 
-  public double getHumid() {
+  public BigDecimal getHumid() {
     return humidity;
   }
 
-  public void setHumid(double humidity) {
+  public void setHumid(BigDecimal humidity) {
     this.humidity = humidity;
   }
 }
