@@ -19,7 +19,7 @@ Die IoT-Dashboard Webanwendung ist eine Plattform zur Überwachung von Temperatu
     ./gradlew bootRun
     ```
 
-    Die Anwendung startet unter `http://localhost:8080`.
+    Die Anwendung startet unter `http://localhost:8081`.
 
 3. **Raspi-Skript einrichten:**
 
@@ -31,7 +31,7 @@ Die IoT-Dashboard Webanwendung ist eine Plattform zur Überwachung von Temperatu
 
 5. **Auf die Anwendung zugreifen:**
 
-    Öffne deinen Browser und gehe zu `http://localhost:8080`, um auf das IoT-Dashboard zuzugreifen.
+    Öffne deinen Browser und gehe zu `http://localhost:8081`, um auf das IoT-Dashboard zuzugreifen.
 
 ## Funktionen
 

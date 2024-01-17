@@ -1,4 +1,4 @@
-package com.webapps.telemetrywebapp;
+package com.webapps.telemetrywebapp.model.telemetry;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,9 +9,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.sql.Timestamp;
+
+import com.webapps.telemetrywebapp.model.device.Device;
+
 import java.math.BigDecimal;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 public class Telemetry {
 
   @Id
@@ -19,7 +22,7 @@ public class Telemetry {
   private Integer id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(nullable = false)  // Änderung hier
+  @JoinColumn(nullable = false)
   private Device device;
 
   private BigDecimal temperature;

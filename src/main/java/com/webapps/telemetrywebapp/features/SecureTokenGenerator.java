@@ -1,4 +1,4 @@
-package com.webapps.telemetrywebapp;
+package com.webapps.telemetrywebapp.features;
 
 import java.security.SecureRandom;
 import java.util.Base64;

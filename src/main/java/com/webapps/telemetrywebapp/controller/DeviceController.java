@@ -1,4 +1,4 @@
-package com.webapps.telemetrywebapp;
+package com.webapps.telemetrywebapp.controller;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.webapps.telemetrywebapp.features.SecureTokenGenerator;
+import com.webapps.telemetrywebapp.model.device.Device;
+import com.webapps.telemetrywebapp.model.device.DeviceRepository;
 
 @Controller
 @RequestMapping(path="/device")

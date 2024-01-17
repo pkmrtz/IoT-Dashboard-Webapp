@@ -1,4 +1,4 @@
-package com.webapps.telemetrywebapp;
+package com.webapps.telemetrywebapp.model.telemetry;
 
 import java.util.List;
 import java.util.UUID;

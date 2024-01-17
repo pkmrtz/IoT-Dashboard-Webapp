@@ -1,4 +1,4 @@
-package com.webapps.telemetrywebapp;
+package com.webapps.telemetrywebapp.model.device;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 public class Device {
 
   @Id
