@@ -1,3 +1,6 @@
+const HOST = "http://80.158.78.190:8081/"   //On-Cloud
+//const HOST = "http://localhost:8081/"     //lokal
+
 var selectedZeitspanne = 60;
 var selectedDeviceID, selectedDeviceName;
 setDevice();
@@ -5,7 +8,7 @@ setDevice();
 async function getNameForID(id) {
     try {
         const cleanedID = id.replace(/"/g, ''); 
-        const response = await fetch(`http://localhost:8081/device/${cleanedID}/name`);
+        const response = await fetch(HOST+`device/${cleanedID}/name`);
         return response.text();
     } catch (error) {
         console.error(error);
@@ -15,7 +18,7 @@ async function getNameForID(id) {
 
 async function getNewestDevice() {
     try {
-        const response = await fetch("http://localhost:8081/device/newestID");
+        const response = await fetch(HOST+"device/newestID");
         return response.text();
     } catch (error) {
         console.error(error);
@@ -37,7 +40,7 @@ async function submitForm(event) {
         redirect: 'follow'
       };
 
-    fetch("http://localhost:8081/device/add?name="+name, requestOptions) 
+    fetch(HOST+"device/add?name="+name, requestOptions) 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Fehler bei der Anfrage');
@@ -56,7 +59,7 @@ function deleteDevice(id) {
         redirect: 'follow'
       };
 
-    fetch("http://localhost:8081/device/delete/"+id, requestOptions) 
+    fetch(HOST+"device/delete/"+id, requestOptions) 
     .then(response => {
         if (!response.ok) {
             throw new Error('Fehler bei der Anfrage');
@@ -88,7 +91,7 @@ async function setDevice(id) {
 
 async function getTemperature() {
     try {
-        const response = await fetch("http://localhost:8081/telemetry/temp?minutes=" + selectedZeitspanne + "&device_id=" + selectedDeviceID);
+        const response = await fetch(HOST+"telemetry/temp?minutes=" + selectedZeitspanne + "&device_id=" + selectedDeviceID);
         const data = await response.json();
 
         let values, timestamps, tooltips = [];
@@ -129,7 +132,7 @@ async function getTemperature() {
 
 async function getHumidity() {
     try {
-        const response = await fetch("http://localhost:8081/telemetry/humid?minutes=" + selectedZeitspanne + "&device_id=" + selectedDeviceID);
+        const response = await fetch(HOST+"telemetry/humid?minutes=" + selectedZeitspanne + "&device_id=" + selectedDeviceID);
         const data = await response.json();
 
         let values, timestamps, tooltips = [];
@@ -170,7 +173,7 @@ async function getHumidity() {
 
 async function latestTemperature() {
     try {
-        const response = await fetch("http://localhost:8081/telemetry/latest/temp?device_id=" + selectedDeviceID);
+        const response = await fetch(HOST+"telemetry/latest/temp?device_id=" + selectedDeviceID);
         const data = await response.text();
         return data;
     } catch (error) {
@@ -181,7 +184,7 @@ async function latestTemperature() {
 
 async function latestHumidity() {
     try {
-        const response = await fetch("http://localhost:8081/telemetry/latest/humid?device_id=" + selectedDeviceID);
+        const response = await fetch(HOST+"telemetry/latest/humid?device_id=" + selectedDeviceID);
         const data = await response.text();
         return data;
     } catch (error) {
