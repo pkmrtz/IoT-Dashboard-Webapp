@@ -25,7 +25,10 @@ public interface DeviceRepository extends CrudRepository<Device, UUID> {
     void deleteDeviceByHexId(@Param("id") UUID id);
 
     @Query(nativeQuery = true, value = "SELECT BIN_TO_UUID(d.id) FROM device d ORDER BY d.timestamp DESC LIMIT 1")
-    UUID getNewestDeviceID();
+    UUID getNewestDeviceIdMySQL();
+
+    @Query(nativeQuery = true, value = "SELECT d.id FROM device d ORDER BY d.timestamp DESC LIMIT 1")
+    UUID getNewestDeviceIdMariaDB();
 
 }
 

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,9 @@ import com.webapps.telemetrywebapp.model.device.DeviceRepository;
 public class DeviceController {
   @Autowired 
   private DeviceRepository deviceRepository;
+
+  @Value("${spring.profiles.active}")
+  private String activeProfile;
 
   @PostMapping(path="/add")
   public @ResponseBody String addNewDevice (@RequestParam String name) {
@@ -48,7 +52,11 @@ public class DeviceController {
 
   @GetMapping("/newestID")
   public @ResponseBody UUID getNewestDevice() {
-      return deviceRepository.getNewestDeviceID();
+    if(activeProfile.equals("dev")) {
+      return deviceRepository.getNewestDeviceIdMySQL();
+    } else {
+      return deviceRepository.getNewestDeviceIdMariaDB();
+    }
   }
 
   @GetMapping("/{id}/name")
